@@ -42,7 +42,7 @@ int main(void){
 
         for(i = cota_infX; i <= cota_supX; i++){
             j = (y1*(x2-x1) + i * (y2-y1) - x1*(y2-y1)) / (x2-x1);      //Calculate the Y for each X
-            printf("%d\t%d\n", i, j);  
+            printf("%d\t%d\n", i, j);                                   //Print values of points x, y
         } 
         
 
@@ -57,7 +57,7 @@ int main(void){
         
         for(i = cota_infY; i <= cota_supY; i++){            
             j = (x1*(y2-y1) + i *(y2-y1) - y1*(y2-y1)) / (y2-y1);        //Calculate X for each Y
-            printf("%d\t%d\n", j, i);            
+            printf("%d\t%d\n", j, i);                                    //Print values of points x, y
         }
 
     }
