@@ -66,10 +66,6 @@ void DDA (int x1, int y1, int x2, int y2){
 
     if(abs(y2-y1) < abs(x2-x1)){
 
-        if(x1 > x2){
-            swapPoints(x1,y1,x2,y2);
-        }
-
 
         int itX = x1;
         int itY = y1; 
@@ -84,10 +80,7 @@ void DDA (int x1, int y1, int x2, int y2){
         }
 
     }else{
-        
-        if(y1 > y2){
-            swapPoints(x1,y1,x2,y2);
-        }
+         
 
         int itX = x1;
         int itY = y1; 
