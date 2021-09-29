@@ -14,15 +14,6 @@ int max (int a, int b){                                                         
     return (a>b)? a:b;
 }
 
-void swapPoints (int x1, int y1, int x2, int y2){                               //Function to make swap for a pair of points
-    int temp;
-    temp = x1; x1 = x2; x2 = temp;
-
-    temp = y1; y1 = y2; y2 = temp;
-
-return;
-}
-
 void NaiveApproach (int x1, int y1, int x2, int y2){
     
    
