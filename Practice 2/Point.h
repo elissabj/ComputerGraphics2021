@@ -1,4 +1,4 @@
-#define MAXSIZE 5                                                                           //Static size for faces per line, this can modify 
+#define MAXSIZE 4                                                                           //Static size for faces per line, this can modify 
 
 typedef struct Point{                                                                       //Data Type Point 
     
