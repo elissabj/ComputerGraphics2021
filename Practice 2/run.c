@@ -80,12 +80,8 @@ void run (void){
 
             for(int k = 0; k < MAXSIZE; k++){                                   //Save all the faces for each line of the .obj File
 
-                if(k == MAXSIZE-1){
-                    arr_faces[j].connections[k] = connect.connections[0];
-                    continue;
-                }
-
                 arr_faces[j].connections[k] = connect.connections[k];
+                
             }
 
             j++;
