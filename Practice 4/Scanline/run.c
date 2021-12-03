@@ -1,7 +1,5 @@
 #include "run.h"
 
-#define debug printf("todo bien\n");
-
 void run(void){
 
     VertexListFormat figure;
