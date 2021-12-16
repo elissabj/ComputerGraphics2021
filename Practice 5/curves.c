@@ -1,90 +1,103 @@
-/*
-INSTITUTO POLITECNICO NACIONAL 
-Escuela Superior de Computo
-Computer Graphics
-Ramos Gomez Elisa
-Practice 5 Curves
-3CV14
-*/
-
-#include <stdio.h>
-#include <math.h>
-
-/*
-
-t parameter
-
-x (t) = a_x * t^3 + b_x * t^2 + c_x * t + d_x
-y (t) = a_y * t^3 + b_y * t^2 + c_y * t + d_x 
+#include "curves.h"
 
 
-t | x(t) | y(t) |
-  | 	 |      |
-  |      |      |
+void DigitalDifferentialAnalyser ( Point p0, Point p1, RGB ** frame, RGB color ) {   
 
-*/
+    float dx = p1.x - p0.x;                                                                                          //X and Y differentials
+    float dy = p1.y - p0.y;
 
+    int steps;
+    float x_buffer = p0.x;                                                                                           //X and Y values of the pixel that will be turned ON
+    float y_buffer = p0.y;
 
-int main(){
-
-	int numberLines;
-
-	double ax, bx, cx, dx;
-	double ay, by, cy, dy;
-
-	printf("Number of lines: ");
-	scanf("%d", &numberLines);
-
-	printf("Parameters of x(t)\n");
-
-	printf("ax = ");
-	scanf("%lf", &ax);
-
-	printf("bx = ");
-	scanf("%lf", &bx);
-
-	printf("cx = ");
-	scanf("%lf", &cx);
-
-	printf("dx = ");
-	scanf("%lf", &dx);
+    
+    float x_increment;                                                                                               //X and Y increments
+    float y_increment;
 
 
-	printf("Parameters of y(t)\n");
+    if (abs(dx) > abs(dy)) {
+        steps = abs(dx); 
+    } else {
+        steps = abs(dy);
+    }
 
-	printf("ay = ");
-	scanf("%lf", &ay);
+    
+    x_increment = dx / steps;                                                                                        //Calculate X and Y increment
+    y_increment = dy / steps;
+    
+    
+    for (int i = 0; i < steps; i++) {                                                                                //Loop for incrementing X and Y coordinates 
+        x_buffer += x_increment;
+        y_buffer += y_increment;
 
-	printf("by = ");
-	scanf("%lf", &by);
+		int x = (int)x_buffer;
+		int y = (int)y_buffer;
 
-	printf("cy = ");
-	scanf("%lf", &cy);
+		frame[x][y] = color;
+    }
 
-	printf("dy = ");
-	scanf("%lf", &dy);
+	return;
+}
 
-	double linesInTheCurve;
-
-	linesInTheCurve = 1.0 / (double)numberLines;
-
-
-	for(double t = 0; t <= 1; t += linesInTheCurve){
-
-		printf("\nFor t = %lf:\n", t);
-
-		double x_t = ax * pow(t,3) + bx * pow(t,2) + cx * pow(t,1) + dx;
-		double y_t = ay * pow(t,3) + by * pow(t,2) + cy * pow(t,1) + dy;
-
-		printf("x(%lf) = %lf\n", t, x_t);
-		printf("y(%lf) = %lf\n", t, y_t);
-
-	} 
-
+void Bresenham ( Point p0, Point p1, RGB ** frame, RGB color ) {   
 	
-	// Bezier
+    if (IsSamePoint(p1, p0)) {
+		int x = p0.x;
+		int y = p0.y;
+		frame[x][y] = color;
 
-	// Hermite
+    } else {
+        
+        int dx = p1.x - p0.x;                                                                                        //X and Y differentials
+        int dy = p1.y - p0.y;
 
-	return 0;
+        
+        int twice_dy = 2 * dy;                                                                                       //Auxilary variables
+        int twice_dy_dx = twice_dy - 2*dx;
+        int decision_variable = twice_dy - dx;
+
+
+        int buffer_x = p0.x;                                                                                         //X and Y values of the pixel that will be turned ON
+        int buffer_y = p0.y;
+
+        while (buffer_x != p1.x) {
+            
+			frame[buffer_x++][buffer_y] = color;
+            
+			if (decision_variable < 0) {
+                decision_variable += twice_dy;
+            } else {
+                buffer_y++;
+                decision_variable += twice_dy_dx;
+            }
+        }
+    }
+	return;
+}
+
+
+
+void drawFinalCurve(char * nameOfPPM, RGB ** frame, int SIZE_N, int SIZE_M){
+	
+	char finalName [100];                                                                                            //Name File
+    memset(finalName, '\0', sizeof(finalName));                                                                      //Clean Buff
+
+    strcat(finalName, nameOfPPM);                                                                                    //Create .ppm file
+    strcat(finalName, ".ppm"); 
+
+	FILE  *fobj = fopen( finalName, "w");
+    (void) fprintf(fobj, "P3\n%d %d\n255\n", SIZE_N, SIZE_M);  
+
+
+    for(int i = 0; i < SIZE_N; i++){
+        for(int j = 0; j < SIZE_M; j++){
+            fprintf(fobj, "%d %d %d ", frame[i][j].red, frame[i][j].green, frame[i][j].blue);
+        }
+        fprintf(fobj, "\n");
+    }
+
+	fprintf(fobj, "\n");
+    fclose(fobj);
+
+return;
 }
